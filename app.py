@@ -1,8 +1,7 @@
-from flask import Flask, request, abort, jsonify, redirect, url_for
+from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from sqlalchemy import Integer, String, Column, create_engine
-from sqlalchemy.orm import DeclarativeBase, Session
+from sqlalchemy.orm import DeclarativeBase
 
 class Base(DeclarativeBase):
     pass
@@ -64,9 +63,7 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify(
-        id = new_user.id
-    )
+    return { 'id': new_user.id }
 
     
 @app.route("/login", methods=['POST'])
@@ -79,11 +76,16 @@ def login():
 
     user = User.find_by_username(username)
     if user.check_password(pswrd):
-        redirect(url_for('user', username=user.username))
+        return {'id': user.id}
+    else:
+        abort(401)
     
 @app.route("/user/<username>", methods=['GET'])
 def user(username):
     user = User.find_by_username(username)
-    return jsonify(
-        id = user.id
-    )
+    return {
+        'id': user.id,
+        'username': user.username,
+        'first_name': user.first_name,
+        'last_name': user.last_name
+    }
