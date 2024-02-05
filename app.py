@@ -134,7 +134,7 @@ def register():
 
     user = User.find_by_username(username)
     if not user == None:
-        abort(400)
+        abort(401)
 
     new_user = User(
         username = username,
@@ -159,6 +159,8 @@ def login():
     pswrd = request.json.get('password', '')
 
     user = User.find_by_username(username)
+    if user == None:
+        abort(401)
     if user.check_password(pswrd):
         return {'id': user.id}
     else:
@@ -167,6 +169,10 @@ def login():
 @app.route('/user/<username>', methods=['GET'])
 def user(username):
     user = User.find_by_username(username)
+    if user == None:
+        user = User.query.get(username)
+        if user == None:
+            abort(404)
     return {
         'id': user.id,
         'username': user.username,
