@@ -1,5 +1,5 @@
 from flask import Flask, request, abort, jsonify
-from typing import Self, List
+from typing_extensions import Self, List
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from sqlalchemy.orm import DeclarativeBase
