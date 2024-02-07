@@ -78,8 +78,14 @@
             'message': String,
             // От кого сообщение
             'from_id': Int,
+            'from_username': String,
+            'from_last_name': String,
+            'from_first_name': String,
             // Кому сообщение
             'to_id': Int,
+            'to_username': String,
+            'to_last_name': String,
+            'to_first_name': String,
             // Время и дата отправки
             'datetime': String
         },
@@ -114,8 +120,14 @@
             'message': String,
             // От кого сообщение
             'from_id': Int,
+            'from_username': String,
+            'from_last_name': String,
+            'from_first_name': String,
             // Кому сообщение
             'to_id': Int,
+            'to_username': String,
+            'to_last_name': String,
+            'to_first_name': String,
             // Время и дата отправки
             'datetime': String
         },

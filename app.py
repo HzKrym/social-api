@@ -52,11 +52,19 @@ class Message(db.Model):
         self.datetime = datetime.now()
 
     def to_dict(self) -> dict:
+        from_user: User = User.query.get(self.from_id)
+        to_user: User = User.query.get(self.to_id)
         return {
             'id': self.id,
             'message': self.message,
             'from_id': self.from_id,
+            'from_username': from_user.username,
+            'from_last_name': from_user.last_name,
+            'from_first_name': from_user.first_name,
             'to_id': self.to_id,
+            'to_username': to_user.username,
+            'to_last_name': to_user.last_name,
+            'to_first_name': to_user.first_name,
             'datetime': self.datetime.__str__()
         }
 
