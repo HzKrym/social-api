@@ -10,13 +10,13 @@
 ``` JSON
 {
     // Никнейм
-    'username': String,
+    "username": "String",
     // Пароль
-    'password': String,
+    "password": "String",
     // Фамилия(необязательно)
-    'last_name': String,
+    "last_name": "String",
     // Имя(необязательно)
-    'first_name': String
+    "first_name": "String"
 }
 ```
 
@@ -24,7 +24,7 @@
 ``` JSON
 {
     // ID нового пользователя
-    'id': Int
+    "id": 0
 }
 ```
 
@@ -38,9 +38,9 @@
 ``` JSON
 {
     // Никнейм
-    'username': String,
+    "username": "String",
     // Пароль
-    'password': String
+    "password": "String"
 }
 ```
 
@@ -48,7 +48,7 @@
 ``` JSON
 {
     // ID авторизованного пользователя
-    'id': Int
+    "id": 0
 }
 ```
 
@@ -62,7 +62,7 @@
 ``` JSON
 {
     // ID пользователя
-    'user_id': Int
+    "user_id": 0
 }
 ```
 
@@ -70,24 +70,28 @@
 ```JSON
 {
     // Массив сообщений
-    'last_messages': [
+    "last_messages": [
         {
             // ID сообщения
-            'id': Int,
+            "id": 0,
             // Текст сообщения
-            'message': String,
+            "message": "String",
             // От кого сообщение
-            'from_id': Int,
-            'from_username': String,
-            'from_last_name': String,
-            'from_first_name': String,
+            "from": {
+                "id": 0,
+                "username": "String",
+                "last_name": "String",
+                "first_name": "String"
+            },
             // Кому сообщение
-            'to_id': Int,
-            'to_username': String,
-            'to_last_name': String,
-            'to_first_name': String,
+            "to": {
+                "id": 0,
+                "username": "String",
+                "last_name": "String",
+                "first_name": "String"
+            },
             // Время и дата отправки
-            'datetime': String
+            "datetime": "String"
         },
         ...
     ]
@@ -102,9 +106,9 @@
 ``` JSON
 {
     // ID пользователя
-    'user_id': Int,
+    "user_id": Int,
     // ID другого пользователя
-    'friend_id': Int
+    "friend_id": Int
 }
 ```
 
@@ -112,24 +116,28 @@
 ```JSON
 {
     // Массив сообщений
-    'messages_list': [
+    "messages_list": [
         {
             // ID сообщения
-            'id': Int,
+            "id": 0,
             // Текст сообщения
-            'message': String,
+            "message": "String",
             // От кого сообщение
-            'from_id': Int,
-            'from_username': String,
-            'from_last_name': String,
-            'from_first_name': String,
+            "from": {
+                "id": 0,
+                "username": "String",
+                "last_name": "String",
+                "first_name": "String"
+            },
             // Кому сообщение
-            'to_id': Int,
-            'to_username': String,
-            'to_last_name': String,
-            'to_first_name': String,
+            "to": {
+                "id": 0,
+                "username": "String",
+                "last_name": "String",
+                "first_name": "String"
+            },
             // Время и дата отправки
-            'datetime': String
+            "datetime": "String"
         },
         ...
     ]
@@ -144,11 +152,11 @@
 ``` JSON
 {
     // ID пользователя, который отправляет сообщения
-    'from': Int,
+    "from": 0,
     // ID пользователя, которому отправляется сообщение
-    'to': Int,
+    "to": 0,
     // Сообщение
-    'message': String
+    "message": "String"
 }
 ```
 
@@ -162,12 +170,12 @@
 ``` JSON
 {
     // ID пользователя
-    'id': Int,
+    "id": 0,
     // Никнейм
-    'username': String,
+    "username": "String",
     // Фамилия
-    'last_name': String,
+    "last_name": "String",
     // Имя
-    'first_name': String
+    "first_name": "String"
 }
 ```

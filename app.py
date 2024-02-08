@@ -57,14 +57,18 @@ class Message(db.Model):
         return {
             'id': self.id,
             'message': self.message,
-            'from_id': self.from_id,
-            'from_username': from_user.username,
-            'from_last_name': from_user.last_name,
-            'from_first_name': from_user.first_name,
-            'to_id': self.to_id,
-            'to_username': to_user.username,
-            'to_last_name': to_user.last_name,
-            'to_first_name': to_user.first_name,
+            'from': {
+                'id': self.from_id,
+                'username': from_user.username,
+                'last_name': from_user.last_name,
+                'first_name': from_user.first_name
+            },
+            'to': {
+                'id': self.to_id,
+                'username': to_user.username,
+                'last_name': to_user.last_name,
+                'first_name': to_user.first_name,
+            },
             'datetime': self.datetime.__str__()
         }
 
@@ -74,9 +78,9 @@ with app.app_context():
 
 def is_not_added_message(list: List[dict], message: Message) -> bool:
     for message_in_list in list:
-        if message_in_list['from_id'] == message.from_id or message_in_list['to_id'] == message.from_id:
+        if message_in_list['from']['id'] == message.from_id or message_in_list['to']['id'] == message.from_id:
             return False
-        if message_in_list['from_id'] == message.to_id or message_in_list['to_id'] == message.to_id:
+        if message_in_list['from']['id'] == message.to_id or message_in_list['to']['id'] == message.to_id:
             return False
     return True
 
