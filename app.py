@@ -66,7 +66,7 @@ class Message(db.Model):
             'id': self.id,
             'message': self.message,
             'from': from_user.to_dict(),
-            'to': to_user.to_dict,
+            'to': to_user.to_dict(),
             'datetime': self.datetime.__str__()
         }
 
