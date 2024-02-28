@@ -74,13 +74,16 @@ class Message(db.Model):
 with app.app_context():
     db.create_all()
 
-def is_not_added_message(list: List[dict], message: Message) -> bool:
+def is_not_added_message(list: List[dict], message: Message, user_id: int) -> bool:
+    other_user_id = 0
+    if message.from_id == user_id:
+        other_user_id = message.to_id
+    else:
+        other_user_id = message.from_id
     for message_in_list in list:
-        if message_in_list['from']['id'] == message.from_id \
-            or message_in_list['to']['id'] == message.from_id:
+        if message_in_list['from']['id'] == other_user_id:
             return False
-        if message_in_list['from']['id'] == message.to_id \
-            or message_in_list['to']['id'] == message.to_id:
+        if message_in_list['to']['id'] == other_user_id:
             return False
     return True
 
@@ -141,7 +144,7 @@ def get_messages():
         ).order_by(Message.datetime.desc()).all()
     last_messages: List[dict] = []
     for message in messages:
-        if is_not_added_message(last_messages, message):
+        if is_not_added_message(last_messages, message, user_id):
             last_messages.append(message.to_dict())
     return { 'last_messages': last_messages }
 
