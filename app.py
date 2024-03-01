@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, Request
 from typing_extensions import Self, List
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -93,6 +93,21 @@ def map_users(list: List[User]) -> List[dict]:
         result.append(user.to_dict())
     return result
 
+def check_auth(request: Request):
+    if not request.json \
+        or not 'username' in request.json \
+        or not 'password' in request.json:
+        abort(401)
+    
+    username = request.json.get('username', '')
+    pswrd = request.json.get('password', '')
+
+    user = User.find_by_username(username)
+    if user == None:
+        abort(401)
+    if not user.check_password(pswrd):
+        abort(401)
+
 @app.route('/')
 def main():
     return 'Test'
@@ -115,6 +130,7 @@ def search_user():
 
 @app.route('/send', methods=['POST'])
 def send_message():
+    check_auth(request)
     if not request.json \
         or not 'message' in request.json \
         or not 'from' in request.json \
@@ -132,6 +148,7 @@ def send_message():
 
 @app.route('/message', methods=['POST'])
 def get_messages():
+    check_auth(request)
     if not request.json or not 'user_id' in request.json:
         abort(400)
 
@@ -150,6 +167,7 @@ def get_messages():
 
 @app.route('/user-message', methods=['POST'])
 def get_messages_by_user():
+    check_auth(request)
     if not request.json \
         or not 'user_id' in request.json \
         or not 'friend_id' in request.json:
