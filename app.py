@@ -93,7 +93,7 @@ def map_users(list: List[User]) -> List[dict]:
         result.append(user.to_dict())
     return result
 
-def check_auth(request: Request):
+def check_auth(request: Request) -> User:
     if not request.json \
         or not 'username' in request.json \
         or not 'password' in request.json:
@@ -107,6 +107,7 @@ def check_auth(request: Request):
         abort(401)
     if not user.check_password(pswrd):
         abort(401)
+    return user
 
 @app.route('/')
 def main():
@@ -130,15 +131,14 @@ def search_user():
 
 @app.route('/send', methods=['POST'])
 def send_message():
-    check_auth(request)
+    user = check_auth(request)
     if not request.json \
         or not 'message' in request.json \
-        or not 'from' in request.json \
         or not 'to' in request.json:
         abort(400)
     
     message = request.json.get('message', '')
-    from_id = request.json.get('from', '')
+    from_id = user.id
     to_id = request.json.get('to', '')
 
     new_message = Message(message, from_id, to_id)
@@ -148,11 +148,9 @@ def send_message():
 
 @app.route('/message', methods=['POST'])
 def get_messages():
-    check_auth(request)
-    if not request.json or not 'user_id' in request.json:
-        abort(400)
+    user = check_auth(request)
 
-    user_id = request.json.get('user_id', '')
+    user_id = user.id
     messages: List[Message] = Message.query.where(
         or_(
             Message.from_id == user_id,
@@ -167,13 +165,12 @@ def get_messages():
 
 @app.route('/user-message', methods=['POST'])
 def get_messages_by_user():
-    check_auth(request)
+    user = check_auth(request)
     if not request.json \
-        or not 'user_id' in request.json \
         or not 'friend_id' in request.json:
         abort(400)
     
-    user_id = request.json.get('user_id', '')
+    user_id = user.id
     friend_id = request.json.get('friend_id', '')
     messages: List[Message] = Message.query \
         .order_by(Message.datetime.desc()) \
